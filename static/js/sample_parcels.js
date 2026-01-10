@@ -5,10 +5,10 @@ export const sampleParcels = {
     {
     type: "Feature",
     properties: {
-      address: "1175 S. Seaward Ave, Ventura, CA 93001",
+      address: "202 W 1st St, Los Angeles, CA 90012",
 
       propertyValue : {
-        valuePerSQFT: "$250",
+        valuePerSQFT: "$24.17",
         taxValue: "$200,000",
         taxAmount: "$15,000",
       },
@@ -16,7 +16,8 @@ export const sampleParcels = {
         landUsePerSQFT: "Commercial Hotel",
         useCode: "Hospitality",
         acerage: "28",
-        landSQFT: "12,226",
+        buildingSQFT: "10,000",
+        landSQFT: "12,000",
         improvements: "$250,000",
         netImprovementValue: "$1,000,000",
       },
@@ -38,7 +39,9 @@ export const sampleParcels = {
       },
       assessedValue: {
         assessedYear: "1955",
-        assessedTotalValue: "$200,000",
+        assessedPropertyValue: "$200,000",
+        assessedPropertyValueSQFT: "$20",
+        assessedLandValueSQFT: "$4.17",
         assessedLandValue: "250,000",
         assessedImprovementValue: "$25,000",
      },

@@ -65,6 +65,8 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
         const p = feature.properties || {};
         const pv = p.propertyValue || {};
+        const av = p.assessedValue || {};
+        const pc = p.propertyCharacteristics || {};
 
         const tr = document.createElement("tr"); //creating a row for the table and pulling in data from properties data in sampleparcels.js below
         tr.innerHTML = `
@@ -72,6 +74,12 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         <td>${pv.valuePerSQFT}</td>
         <td>${pv.taxValue}</td>
         <td>${pv.taxAmount}</td>
+        <td>${av.assessedPropertyValue}</td>
+        <td>${av.assessedLandValue}</td>
+        <td>${pc.buildingSQFT}</td>
+        <td>${pc.landSQFT}</td>
+        <td>${av.assessedPropertyValueSQFT}</td>
+        <td>${av.assessedLandValueSQFT}</td>
         `;
         tbody.appendChild(tr); //adding these rows to the table
 
@@ -140,6 +148,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           ${kv("Land Use", pc.landUsePerSQFT)}
           ${kv("Use Code", pc.useCode)}
           ${kv("Acerage", pc.acerage)}
+          ${kv("Building SQFT", pc.buildingSQFT)}
           ${kv("Land SQFT", pc.landSQFT)}
           ${kv("Improvements", pc.improvements)}
           ${kv("Net Improvement Value", pc.netImprovementValue)}
@@ -163,8 +172,10 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         const col3=`
           ${section("Assessed Value")}
           ${kv("Assessed Year", av.assessedYear)}
-          ${kv("Assessed Total Value", av.assessedTotalValue)}
+          ${kv("Assessed Property Value", av.assessedPropertyValue)}
           ${kv("Assessed Land Value", av.assessedLandValue)}
+          ${kv("Assessed Property Value per SQFT", av.assessedPropertyValueSQFT)}
+          ${kv("Assessed Land Value per SQFT", av.assessedLandValueSQFT)}
           ${kv("Assessed improvement Value", av.assessedImprovementValue)}
           ${section("Taxable Value & Taxes")}
           ${kv("Tax Year", tvat.taxYear)}
