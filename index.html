@@ -1,0 +1,70 @@
+<!--File name: html.index
+Author: Arpita Sharma
+Date Created: 1/05/2026
+Date Modified: 1/08/2025
+Purpose: To create a password protected website that shows commercial properties with detailed tax information for 2024 and allows for easy comparison between properties
+-->
+<!DOCTYPE html>
+<html lang="en"> <!--this sets html language to english-->
+<head> <!--this header section provides information about the document's encoding, sets the title, and links to external resources-->
+    <meta charset="UTF-9"> <!--setting to unicode 8 -- this uses 1 to 4 bytes per character-->
+    <meta name="viewport" content= "width-device-width, initial-scale=1.0"> <!--this sets the width of the website-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> <!--this makes the website work in the latest internet explorer version -->
+    <title>Commercial Property Taxes</title> <!--this is the title-->
+    
+    <!--Commercial Property Taxes CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="" />
+
+    <!--ERI CSS-->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<!--this is the body of the website - it's how we lay out the structure
+i've structured it below so that there is a larger view called app, which holds our map and bottom panel. 
+the bottom pannel includes a table, which expands as we select properties to add to the table -->
+<body> 
+    <!--This div holds our map-->
+    <div id="app"> <!--this is the larger container for the site-->
+        <div id="map"></div> <!--this is the map container for the site-->
+        <div id="bottomPanel"> <!--this is the bottom container for the site-->
+            <div id="panel-content"> <!--this is the where the content can go inside the bottom panel-->
+                <div id="panel-header"> <!--this is where I put text details for the header -->
+                    <h1>Selected Properties Comparison</h1> <!--this is the title for the header-->
+                    <button id="exportBtn">Export</button>
+                </div>
+                <div id="selectedTable"> <!--this is the box where the table is located -->
+                    <table class="data-table"> <!--this is the structure of the table -->
+                        <thead>
+                            <tr> <!--this is where the table headers are listed -->
+                                <th>Property</th>
+                                <th>Value/sq foot</th>
+                                <th>Tax value</th>
+                                <th>Tax amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="selectedTableBody"> <!--this is where the selected properties go into the table -->
+                            <tr class="empty-row"> <!--if the row is empty here, then the site automatically removes the row-->
+                                <td colspan="5">No properties selected yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Leaflet JS-->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!--D3 JS-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- ERI JS-->
+     <script type="module" src="static/js/logic.js"></script>
+</body>
+
+</html>

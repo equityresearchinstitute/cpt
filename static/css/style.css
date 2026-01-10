@@ -1,0 +1,268 @@
+/*File name: style.css
+Author: Arpita Sharma
+Date Created: 1/05/2026
+Date Modified: 1/08/2025
+Purpose: To styles all the elements of the mapping webpage, including maps, mouseovers, bottom panel, text, etc.
+*/
+
+/* Import Roboto Mono font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#map {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+/* this is the bottom panel styling content */
+#bottomPanel {
+  height: 250px;
+  width: 100%;
+  border-top: 1px solid #ddd;
+  background: rgb(84, 84, 84);
+  border-radius: 25px 25px 0 0;
+}
+
+#panel-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+/* this is the text container for the bottom panel */
+#panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-family: 'Montserrat', regular;
+}
+
+#panel-header h1 {
+  font-family: Lato;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: rgb(235, 184, 64);
+  font-family: 'Montserrat', regular;
+}
+#exportBtn {
+  background-color: rgb(235, 184, 64);
+  color: black;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-family: 'Montserrat', regular;
+}
+
+/* these are all the table rows*/
+#selectedTable {
+  max-height: 200px;
+  overflow: auto;
+  text-align: right;
+  font-family: 'Montserrat', regular;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  text-align: right;
+  color: white;
+  font-family: 'Montserrat', regular;
+}
+
+#data-table thead th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid white;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: 'Montserrat', regular;
+}
+
+#data-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+  font-family: 'Montserrat', regular;
+
+}
+
+#data-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Montserrat', regular;
+}
+
+.empty-row td {
+  color: white;
+  text-align: center;
+  padding: 18px 12px;
+  font-family: 'Montserrat', regular;
+}
+
+/*This is the styling for the info panel*/
+.infoPanel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgb(84, 84, 84);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 850px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: white;
+  font-family: 'Montserrat', regular;
+}
+
+/* Hidden state */
+.infoPanel.hidden {
+  display: none;
+}
+
+/* 3 fixed columns */
+.infoPanel .pt-cols {
+  display: flex;
+  gap: 20px;
+  padding: 16px;
+}
+
+/* Each column card */
+.infoPanel .pt-col {
+  flex: 1;
+  min-width: 200px;
+}
+
+.infoPanel .pt-section-title {
+  font-weight: 700;
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  margin-top: 12px;
+  color: rgb(235, 184, 64);
+  letter-spacing: 0.5px;
+}
+
+.infoPanel .pt-section-title:first-child {
+  margin-top: 0;
+}
+
+.infoPanel .pt-col-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Each key/value tile */
+.infoPanel .pt-kv {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.infoPanel .pt-label {
+  font-size: 12px;
+  opacity: 0.85;
+  font-weight: 500;
+  color: #ddd;
+  min-width: 140px;
+}
+
+.infoPanel .pt-val {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: white;
+}
+
+/*This is the mouseover text styling*/
+.infoPanel .pt-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 2px;
+  margin-top: 5px;
+}
+
+.infoPanel .pt-text {
+  font-weight: 600;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.infoPanel .pt-col-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.pt-compare {
+  background-color: rgb(235, 184, 64);
+  color: #000;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.pt-compare:hover {
+  background: rgb(255, 200, 100);
+}
+
+body,
+html {
+  height: 100%;
+}
+.infoPanel .pt-text {
+  font-weight: 600;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.infoPanel .pt-col-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.pt-compare {
+  background-color: rgb(235, 184, 64);
+  color: #000;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-family: 'Montserrat', regular;
+}
+
+.pt-compare:hover {
+  background: rgb(255, 200, 100);
+}
+
+body,
+html {
+  height: 100%;
+}
