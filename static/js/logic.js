@@ -67,6 +67,8 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         const pv = p.propertyValue || {};
         const av = p.assessedValue || {};
         const pc = p.propertyCharacteristics || {};
+        const tvat = p.taxableValueandTaxes || {};
+        const sath = p.salesAndTransactionHistory || {};
 
         const tr = document.createElement("tr"); //creating a row for the table and pulling in data from properties data in sampleparcels.js below
         tr.innerHTML = `
@@ -80,6 +82,8 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         <td>${pc.landSQFT}</td>
         <td>${av.assessedPropertyValueSQFT}</td>
         <td>${av.assessedLandValueSQFT}</td>
+        <td>${tvat.baseYear}</td>
+        <td>${sath.saleDate}</td>
         `;
         tbody.appendChild(tr); //adding these rows to the table
 
