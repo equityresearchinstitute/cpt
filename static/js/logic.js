@@ -82,7 +82,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         <td>${pc.landSQFT}</td>
         <td>${av.assessedPropertyValueSQFT}</td>
         <td>${av.assessedLandValueSQFT}</td>
-        <td>${tvat.baseYear}</td>
+        <td>${tvat.taxYear}</td>
         <td>${sath.saleDate}</td>
         `;
         tbody.appendChild(tr); //adding these rows to the table

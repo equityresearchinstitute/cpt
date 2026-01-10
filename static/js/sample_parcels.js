@@ -46,7 +46,7 @@ export const sampleParcels = {
         assessedImprovementValue: "$25,000",
      },
      taxableValueandTaxes: {
-        baseYear: "2018",
+        taxYear: "2018",
         taxableLandValue : "$15,000",
         tabableImprovementValue: "$15,000",
         netTaxableAmount: "$10,000",
