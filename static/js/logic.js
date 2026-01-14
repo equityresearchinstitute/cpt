@@ -33,7 +33,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
       // Create our map, giving it the streetmap layer to display on load. 
       const myMap = L.map("map", {
-        center: [34.0521, -118.2454], //adding in default location the map opens to here
+        center: [37.79949, -122.283399], //adding in default location the map opens to here
         zoom: 18, // adding the default zoom when map opens here
         maxZoom: 19 // this i the max zoom length that anyone can zoom down to
       });
@@ -64,26 +64,20 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         if (empty) empty.remove(); // if the row is empty, remove the row
 
         const p = feature.properties || {};
-        const pv = p.propertyValue || {};
-        const av = p.assessedValue || {};
-        const pc = p.propertyCharacteristics || {};
-        const tvat = p.taxableValueandTaxes || {};
-        const sath = p.salesAndTransactionHistory || {};
 
         const tr = document.createElement("tr"); //creating a row for the table and pulling in data from properties data in sampleparcels.js below
         tr.innerHTML = `
         <td>${p.address}</td> 
-        <td>${pv.valuePerSQFT}</td>
-        <td>${pv.taxValue}</td>
-        <td>${pv.taxAmount}</td>
-        <td>${av.assessedPropertyValue}</td>
-        <td>${av.assessedLandValue}</td>
-        <td>${pc.buildingSQFT}</td>
-        <td>${pc.landSQFT}</td>
-        <td>${av.assessedPropertyValueSQFT}</td>
-        <td>${av.assessedLandValueSQFT}</td>
-        <td>${tvat.taxYear}</td>
-        <td>${sath.saleDate}</td>
+        <td>${p.apn}</td>
+        <td>${p.landUseCode}</td>
+        <td>${p.assessedTotalValue}</td>
+        <td>${p.assessedLandValue}</td>
+        <td>${p.assessedImprovementValue}</td>
+        <td>${p.saleDate}</td>
+        <td>${p.saleAmount}</td>
+        <td>${p.totalLandSQFT}</td>
+        <td>${p.yearBuilt}</td>
+        <td>${p.totalAreaSQFTAllBuildings}</td>
         `;
         tbody.appendChild(tr); //adding these rows to the table
 
@@ -100,7 +94,7 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
           const apn=btn.dataset.apn ||"";
           const feature = parcels.find(
-            f => (f.properties?.referenceAndVerification?.apn || "")== apn
+            f => (f.properties?.apn || "")== apn
           );
           
           if (!feature) {
@@ -132,61 +126,60 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       }
 
       function buildParcelTooltipHTML(p) { //this is a function to create a mouseover showing the values we want.
-        const pv = p.propertyValue || {};
-        const pc = p.propertyCharacteristics || {};
-        const onm = p.ownershipAndMailing || {};
-        const sath = p.salesAndTransactionHistory || {};
-        const rav = p.referenceAndVerification || {};
-        const av = p.assessedValue || {};
-        const tvat = p.taxableValueandTaxes || {};
-        const apn = rav.apn || "";
+        const apn = p.apn || "";
 
         const col1= `
           ${section("Property")}
-          ${kv("Address", p.address)}
-          ${section("Value")}
-          ${kv("Value/sq ft", pv.valuePerSQFT)}
-          ${kv("Tax Value", pv.taxValue)}
-          ${kv("Tax Amount", pv.taxAmount)}
+          ${kv("Address:", p.address)}
+          ${kv("County:", p.county)}
+          ${kv("APN:", apn)}
           ${section("Characteristics")}
-          ${kv("Land Use", pc.landUsePerSQFT)}
-          ${kv("Use Code", pc.useCode)}
-          ${kv("Acerage", pc.acerage)}
-          ${kv("Building SQFT", pc.buildingSQFT)}
-          ${kv("Land SQFT", pc.landSQFT)}
-          ${kv("Improvements", pc.improvements)}
-          ${kv("Net Improvement Value", pc.netImprovementValue)}
+          ${kv("Land Use Code:", p.landUseCode)}
+          ${kv("Land Use:", p.landUseDescription)}
+          ${kv("Year Built:", p.yearBuilt)}
+          ${kv("Effective Year Built:", p.effectiveYearBuilt)}
+          ${kv("Property Indicator Code:", p.property_indicator_code_v3)}
+          ${kv("Number of Buildings:", p.number_of_buildings_v3)}
+          ${kv("Total Land SQFT:", p.totalLandSQFT)}
+          ${kv("Total Area SQFT All Buildings:", p.TotalAreaSQFTAllBuildings)}
+          ${kv("Improvements:", p.improvements)}
+          ${kv("Net Improvement Value", p.netImprovementValue)}
+
         `;
 
         const col2= `
+          ${section("Assessed Value")}
+          ${kv("Assessed Total Value:", p.assessedTotalValue)}
+          ${kv("Assessed Land Value:", p.assessedLandValue)}
+          ${kv("Assessed Improvement Value", p.assessedImprovementValue)}
           ${section("Ownership and Mailing")}
-          ${kv("Owner", onm.ownerName)}
-          ${kv("Owner Mailing Address", onm.ownerMailingAddress)}
-          ${kv("Out-of-state Owner", onm.outofstateOwner)}
+          ${kv("Owner One:", p.ownerOneName)}
+          ${kv("Owner Mailing Address:", p.ownerOneMailingAddress)}
+          ${kv("Corporate Owner:", p.owner_one_corporate_indicator)}
+          ${kv("Owner Two:", p.ownerTwoName)}
+          ${kv("Owner Mailing Address", p.ownerTwoMailingAddress)}
+          ${kv("Corporate Owner:", p.owner_two_corporate_indicator)}
+
           ${section("Sales and Transaction History")}
-          ${kv("Sale Price", sath.salePrice)}
-          ${kv("Sale Date", sath.saleDate)}
-          ${kv("Recording Date", sath.recordingDate)}
-          ${kv("Seller Name", sath.sellerName)}
-          ${kv("APN", rav.apn)}
-          ${kv("Document", rav.document)}
-          ${kv("Assessor Web Link", rav.weblink)}               
+          ${kv("Sale Type:", p.saleTypeCode)}
+          ${kv("Sale Amount:", p.saleAmount)}
+          ${kv("Sale Date:", p.saleDate)}
+          ${kv("Recording Date:", p.recordingDate)}
+          ${kv("Seller Name", p.sellerName)}
+          ${kv("Document Type:", p.saleDocumentType)}
+          ${kv("Document:", p.document)}
+          ${kv("Assessor Web Link:", p.weblink)}               
         `;
         
         const col3=`
-          ${section("Assessed Value")}
-          ${kv("Assessed Year", av.assessedYear)}
-          ${kv("Assessed Property Value", av.assessedPropertyValue)}
-          ${kv("Assessed Land Value", av.assessedLandValue)}
-          ${kv("Assessed Property Value per SQFT", av.assessedPropertyValueSQFT)}
-          ${kv("Assessed Land Value per SQFT", av.assessedLandValueSQFT)}
-          ${kv("Assessed improvement Value", av.assessedImprovementValue)}
+
           ${section("Taxable Value & Taxes")}
-          ${kv("Tax Year", tvat.taxYear)}
-          ${kv("Taxable Land Value", tvat.taxableLandValue)}
-          ${kv("Taxable Improvement Value", tvat.taxableImprovementValue)} 
-          ${kv("Net Taxable Amount", tvat.netTaxableAmount)}
-          ${kv("Tax amount", tvat.taxAmount)}
+          ${kv("Tax Year:", p.taxYear)}
+          ${kv("Tax Amount:", p.taxAmount)}
+          ${kv("Taxable Improvement Value:", p.taxableImprovementValue)} 
+          ${kv("Taxable Land Value:", p.taxableLandValue)}
+          ${kv("Net Taxable Amount:", p.netTaxableAmount)}
+
           <div class="pt-col-action">
               <button class="pt-compare" type="button" data-apn="${esc(apn)}">Compare</button>
           </div>
@@ -204,70 +197,76 @@ const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       }
 
 
-      function defaultParcelStyle() { // this is what a parcel shape looks like when it's not selected.
-        return{ color: "#444", weight: 1, fillColor: "#4C8BF5", fillOpacity: 0.25};
-      }
-
-      function highlightParcelStyle() { // this is what a parcel shape looks like when we move over it.
-        return{ color: "#444", weight: 2, fillColor: "$4C8BF5", fillOpacity: 0.25};
-      }
-
       /*-----------------------------------------------------------------------------------*/
       /* Parcel Layer */
       /*-----------------------------------------------------------------------------------*/
-      
-      /*Create a leaflet GeoJSON layer for parcels*/
+ 
+// Create a custom info panel
+const infoPanel = document.createElement('div');
+infoPanel.className = 'infoPanel hidden';
+document.getElementById('map').appendChild(infoPanel);
 
+export function createParcelsLayer(L, geojson, options = {}) {
+  let layerRef;
+  layerRef = L.geoJSON(geojson, {
+    pointToLayer: (feature, latlng) => {
+      // Create a circle marker for each point
+      return L.circleMarker(latlng, {
+        radius: 6,
+        fillColor: "#3388ff",
+        color: "#fff",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.7
+      });
+    },
+    onEachFeature: (feature, layer) => {
+      const p = feature.properties || {};
 
-      // Create a custom info panel
-      const infoPanel = document.createElement('div');
-      infoPanel.className = 'infoPanel hidden'; // Use class name and start hidden
-      document.getElementById('map').appendChild(infoPanel);
-
-      export function createParcelsLayer (L, geojson, options = {}) {
-        let layerRef;
-        layerRef = L.geoJSON(geojson, {
-          style: defaultParcelStyle,
-          onEachFeature: (feature, layer) => {
-            const p = feature.properties || {};
-
-            layer.on("mouseover", (e) => { 
-              e.target.setStyle(highlightParcelStyle());
-              if (e.target.bringToFront) e.target.bringToFront();
-            });
-
-            layer.on("mouseout", (e) => {
-              layerRef.resetStyle(e.target);
-            });
-
-            // Show info panel on click
-            layer.on("click", (e) => {
-              L.DomEvent.stopPropagation(e);
-              infoPanel.innerHTML = buildParcelTooltipHTML(p) + 
-                '<button id="close-panel" style="position: absolute; top: 10px; right: 10px; background: #ddd; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; font-weight: bold;">✕</button>';
-              infoPanel.classList.remove('hidden'); // Show the panel
-              
-              // Add close button listener
-              document.getElementById('close-panel').addEventListener('click', () => {
-                infoPanel.classList.add('hidden'); // Hide the panel
-              });
-            });
-          }
+      layer.on("mouseover", (e) => {
+        e.target.setStyle({
+          radius: 8,
+          fillColor: "#ff7800",
+          fillOpacity: 0.9
         });
-
-        return layerRef;
-      }
-
-      const parcelsLayer = createParcelsLayer(L, sampleParcels).addTo(myMap); // adding in parcel layer from the sample_parcels.js file and attaching this layer to the map, so it's drawn
-
-      // Close panel when clicking on map
-      myMap.on('click', () => {
-        infoPanel.classList.add('hidden');
+        if (e.target.bringToFront) e.target.bringToFront();
       });
 
-      //getting an error here and testing what's wrong
-      console.log("features:", sampleParcels.features?.length);
-      console.log("layers created:", parcelsLayer.getLayers().length);
-      console.log("bounds valid:", parcelsLayer.getBounds().isValid());
-      const bounds = parcelsLayer.getBounds();
-      if (bounds.isValid()) myMap.fitBounds(parcelsLayer.getBounds(), { maxZoom: 18 }); // pan and zoom so that this bounding box fits entirely inside the view, zoom is also needed here to fit the parcels, but never closer than 19.
+      layer.on("mouseout", (e) => {
+        e.target.setStyle({
+          radius: 6,
+          fillColor: "#3388ff",
+          fillOpacity: 0.7
+        });
+      });
+
+      // Show info panel on click
+      layer.on("click", (e) => {
+        L.DomEvent.stopPropagation(e);
+        infoPanel.innerHTML = buildParcelTooltipHTML(p) + 
+          '<button id="close-panel" style="position: absolute; top: 10px; right: 10px; background: #ddd; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; font-weight: bold;">✕</button>';
+        infoPanel.classList.remove('hidden');
+        
+        // Add close button listener
+        document.getElementById('close-panel').addEventListener('click', () => {
+          infoPanel.classList.add('hidden');
+        });
+      });
+    }
+  });
+
+  return layerRef;
+}
+
+const parcelsLayer = createParcelsLayer(L, sampleParcels).addTo(myMap);
+
+// Close panel when clicking on map
+myMap.on('click', () => {
+  infoPanel.classList.add('hidden');
+});
+
+console.log("features:", sampleParcels.features?.length);
+console.log("layers created:", parcelsLayer.getLayers().length);
+console.log("bounds valid:", parcelsLayer.getBounds().isValid());
+const bounds = parcelsLayer.getBounds();
+if (bounds.isValid()) myMap.fitBounds(parcelsLayer.getBounds(), { maxZoom: 18 });
